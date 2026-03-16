@@ -8,9 +8,29 @@ client = SarvamAI(api_subscription_key=st.secrets["SARVAM_API_KEY"])
 
 st.set_page_config(page_title="Dolver AI", layout="wide")
 
-# ---------- CSS ----------
+# ---------- HIDE STREAMLIT BUTTONS ----------
 st.markdown("""
 <style>
+
+/* Hide Streamlit toolbar (Fork / Share icons) */
+[data-testid="stToolbar"]{
+visibility: hidden;
+}
+
+/* Hide top menu */
+#MainMenu{
+visibility: hidden;
+}
+
+/* Hide footer */
+footer{
+visibility: hidden;
+}
+
+/* Hide header */
+header{
+visibility: hidden;
+}
 
 .block-container{
     max-width:900px;
