@@ -3,8 +3,8 @@ from sarvamai import SarvamAI
 import uuid
 import time
 
-# API
-client = SarvamAI(api_subscription_key=st.secrets["sk_s3im7cou_BASO9RWhApDtPVrzcEydb9hY"])
+# Use secret API key
+client = SarvamAI(api_subscription_key=st.secrets["SARVAM_API_KEY"])
 
 st.set_page_config(page_title="Dolver AI", layout="wide")
 
@@ -17,7 +17,7 @@ st.markdown("""
     margin:auto;
 }
 
-/* chat row */
+/* chat rows */
 
 .chat-row{
     display:flex;
