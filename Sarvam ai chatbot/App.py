@@ -2,6 +2,7 @@ import streamlit as st
 from sarvamai import SarvamAI
 import uuid
 import time
+import os
 
 client = SarvamAI(api_subscription_key="sk_s3im7cou_BASO9RWhApDtPVrzcEydb9hY")
 
@@ -16,10 +17,12 @@ st.markdown("""
     margin:auto;
 }
 
+/* chat row */
+
 .chat-row{
     display:flex;
     margin:12px 0;
-    animation: slideUp .3s ease;
+    animation: slideUp .25s ease;
 }
 
 .chat-ai{
@@ -30,19 +33,27 @@ st.markdown("""
     justify-content:flex-end;
 }
 
+/* bubbles */
+
 .bubble-ai{
-    background:#F1F1F1;
+    background:#ECECEC;
+    color:#000000;
     padding:12px 16px;
     border-radius:18px;
-    max-width:60%;
+    max-width:65%;
+    font-size:15px;
 }
 
 .bubble-user{
     background:#CDE7B0;
+    color:#000000;
     padding:12px 16px;
     border-radius:18px;
-    max-width:60%;
+    max-width:65%;
+    font-size:15px;
 }
+
+/* animation */
 
 @keyframes slideUp{
     from{
