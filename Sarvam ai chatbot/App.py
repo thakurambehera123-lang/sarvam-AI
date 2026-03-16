@@ -2,9 +2,9 @@ import streamlit as st
 from sarvamai import SarvamAI
 import uuid
 import time
-import os
 
-client = SarvamAI(api_subscription_key="sk_s3im7cou_BASO9RWhApDtPVrzcEydb9hY")
+# API
+client = SarvamAI(api_subscription_key=st.secrets["sk_s3im7cou_BASO9RWhApDtPVrzcEydb9hY"])
 
 st.set_page_config(page_title="Dolver AI", layout="wide")
 
@@ -33,20 +33,22 @@ st.markdown("""
     justify-content:flex-end;
 }
 
-/* bubbles */
+/* AI bubble */
 
 .bubble-ai{
     background:#ECECEC;
-    color:#000000;
+    color:#000 !important;
     padding:12px 16px;
     border-radius:18px;
     max-width:65%;
     font-size:15px;
 }
 
+/* USER bubble */
+
 .bubble-user{
     background:#CDE7B0;
-    color:#000000;
+    color:#000 !important;
     padding:12px 16px;
     border-radius:18px;
     max-width:65%;
@@ -99,8 +101,8 @@ with st.sidebar:
 
     st.markdown("""
 <div style="margin-bottom:7px;">
-    <h1 style="margin-bottom:0;">🤖 Dolver AI</h1>
-    <p style="margin-top:0;color:gray;">[Powered by Sarvam AI]</p>
+<h1 style="margin-bottom:0;font-size:32px;">🤖 Dolver AI</h1>
+<p style="margin-top:0;color:gray;">[Powered by Sarvam AI]</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -113,8 +115,8 @@ with st.sidebar:
     st.divider()
     st.markdown("### Chats")
 
-    for cid,chat in st.session_state.chats.items():
-        if st.button(chat["title"],key=cid):
+    for cid, chat in st.session_state.chats.items():
+        if st.button(chat["title"], key=cid):
             st.session_state.current_chat = cid
             st.rerun()
 
@@ -123,28 +125,28 @@ chat = st.session_state.chats[st.session_state.current_chat]
 messages = chat["messages"]
 
 # ---------- WELCOME ----------
-if len(messages)==0:
+if len(messages) == 0:
     st.markdown(
-    "<h1 style='text-align:center'>Where should we begin?</h1>",
-    unsafe_allow_html=True
+        "<h1 style='text-align:center'>Where should we begin?</h1>",
+        unsafe_allow_html=True
     )
 
 # ---------- SHOW CHAT ----------
 for m in messages:
 
-    if m["role"]=="assistant":
+    if m["role"] == "assistant":
         st.markdown(f"""
         <div class="chat-row chat-ai">
         <div class="bubble-ai">{m["content"]}</div>
         </div>
-        """,unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
     else:
         st.markdown(f"""
         <div class="chat-row chat-user">
         <div class="bubble-user">{m["content"]}</div>
         </div>
-        """,unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
 # ---------- INPUT ----------
 user_input = st.chat_input("Ask anything...")
@@ -153,26 +155,26 @@ if user_input:
 
     messages.append({"role":"user","content":user_input})
 
-    if chat["title"]=="New Chat":
-        chat["title"]=user_input[:30]
+    if chat["title"] == "New Chat":
+        chat["title"] = user_input[:30]
 
-    # show user message immediately
+    # show user message instantly
     st.markdown(f"""
     <div class="chat-row chat-user">
     <div class="bubble-user">{user_input}</div>
     </div>
-    """,unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-    # ---------- THINKING DOTS ----------
+    # ---------- THINKING ----------
     thinking = st.empty()
 
     thinking.markdown("""
     <div class="chat-row chat-ai">
         <div class="bubble-ai typing">
-            <span>.</span><span>.</span><span>.</span>
+        <span>.</span><span>.</span><span>.</span>
         </div>
     </div>
-    """,unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
     # ---------- AI RESPONSE ----------
     response = client.chat.completions(
@@ -184,7 +186,7 @@ if user_input:
 
     thinking.empty()
 
-    # ---------- STREAMING LETTERS ----------
+    # ---------- TYPEWRITER EFFECT ----------
     placeholder = st.empty()
 
     typed_text = ""
@@ -196,7 +198,7 @@ if user_input:
         <div class="chat-row chat-ai">
         <div class="bubble-ai">{typed_text}</div>
         </div>
-        """,unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
         time.sleep(0.015)
 
